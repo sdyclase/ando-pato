@@ -1251,8 +1251,13 @@ async function loadSessionFromURL() {
     // Iniciar listener para ver cambios en tiempo real
     startRealtimeListener();
 
-    // Ir directo a pantalla de identificación de amigo
-    go('s-amigo-entrada');
+    // Mostrar pantalla de amigo SIN llamar go() para evitar que
+    // renderQuickNames se ejecute antes de que persons esté cargado
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('s-amigo-entrada').classList.add('active');
+    window.scrollTo(0,0);
+
+    // Ahora sí renderizar con persons ya cargado
     renderQuickNames();
     toast(`Sesión de ${data.lugar} cargada ✓`);
     return true;
