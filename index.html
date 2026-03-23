@@ -370,7 +370,7 @@ tailwind.config = {
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">account_balance</span>
           <select id="b-banco" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-body appearance-none outline-none">
-            <option>Banco Estado</option><option>Santander</option><option>BCI</option><option selected>Banco de Chile</option><option>Itaú</option>
+            <option>Banco Estado</option><option>Santander</option><option>BCI</option><option selected>Banco de Chile</option><option>Itaú</option><option>Banco Falabella</option><option>Scotiabank</option><option>Banco Ripley</option><option>Banco Security</option><option>BICE</option><option>Coopeuch</option><option>Mercado Pago</option>
           </select>
         </div>
       </div>
@@ -1293,11 +1293,33 @@ function parsearDatosBanco() {
   if (emailMatch) detectado.email = emailMatch[0];
 
   // Detectar banco
-  const bancos = ['banco estado','santander','bci','banco de chile','itaú','itau','scotiabank','falabella','ripley','security','bice','hsbc','internacional'];
-  for (const b of bancos) {
-    if (t.includes(b)) {
-      detectado.banco = b.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  const bancosMap = [
+    { keys: ['banco estado', 'bancoestado'], label: 'Banco Estado' },
+    { keys: ['santander'], label: 'Santander' },
+    { keys: ['bci'], label: 'BCI' },
+    { keys: ['banco de chile', 'banco chile', 'bdechile'], label: 'Banco de Chile' },
+    { keys: ['itaú', 'itau'], label: 'Itaú' },
+    { keys: ['falabella', 'banco falabella'], label: 'Banco Falabella' },
+    { keys: ['scotiabank', 'scotia'], label: 'Scotiabank' },
+    { keys: ['ripley', 'banco ripley'], label: 'Banco Ripley' },
+    { keys: ['security', 'banco security'], label: 'Banco Security' },
+    { keys: ['bice'], label: 'BICE' },
+    { keys: ['hsbc'], label: 'HSBC' },
+    { keys: ['internacional', 'banco internacional'], label: 'Banco Internacional' },
+    { keys: ['coopeuch'], label: 'Coopeuch' },
+    { keys: ['prepago', 'mercado pago', 'mercadopago'], label: 'Mercado Pago' },
+  ];
+  for (const b of bancosMap) {
+    if (b.keys.some(k => t.includes(k))) {
+      detectado.banco = b.label;
       break;
+    }
+  }
+  // Fallback — si no está en lista, extraer "Banco X" del texto directamente
+  if (!detectado.banco) {
+    const bancoMatch = texto.match(/banco\s+([A-Za-záéíóúñÁÉÍÓÚÑ]+)/i);
+    if (bancoMatch) {
+      detectado.banco = 'Banco ' + bancoMatch[1].charAt(0).toUpperCase() + bancoMatch[1].slice(1).toLowerCase();
     }
   }
 
@@ -1326,10 +1348,21 @@ function parsearDatosBanco() {
   if (detectado.email) document.getElementById('b-email').value = detectado.email;
   if (detectado.banco) {
     const sel = document.getElementById('b-banco');
+    let found = false;
     for (let i = 0; i < sel.options.length; i++) {
-      if (sel.options[i].text.toLowerCase().includes(detectado.banco.toLowerCase())) {
-        sel.selectedIndex = i; break;
+      if (sel.options[i].text.toLowerCase().includes(detectado.banco.toLowerCase()) ||
+          detectado.banco.toLowerCase().includes(sel.options[i].text.toLowerCase())) {
+        sel.selectedIndex = i;
+        found = true;
+        break;
       }
+    }
+    // Si no existe en el select, agregarlo dinámicamente
+    if (!found) {
+      const opt = document.createElement('option');
+      opt.text = detectado.banco;
+      opt.selected = true;
+      sel.add(opt);
     }
   }
   if (detectado.tipoCuenta) {
