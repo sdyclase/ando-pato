@@ -997,6 +997,11 @@ async function runOCR(base64DataUrl) {
     if (parsed.error) throw new Error(parsed.error);
     if (!parsed.productos?.length) throw new Error('No se encontraron productos');
 
+    // Filtrar items con precio 0 — son bebidas incluidas en combos
+    parsed.productos = parsed.productos.filter(p => p.price > 0);
+
+    if (!parsed.productos.length) throw new Error('No se encontraron productos con precio');
+
     // Actualizar boleta activa con datos reales del OCR
     activeBoleta = {
       id: 'ocr-' + Date.now(),
@@ -1357,7 +1362,7 @@ function renderResumen() {
   if (!names.length) { el.innerHTML = '<p class="text-on-surface-variant text-sm italic">Nadie ha confirmado aún.</p>'; return; }
   el.innerHTML = names.map((name,i) => {
     const c = confirmed[name];
-    const items = activeBoleta.productos.filter(p => c.productIds.includes(p.id));
+    const items = activeBoleta.productos.filter(p => c.productIds.includes(p.id) && p.price > 0);
     const sub = items.reduce((a,b) => a+b.price, 0);
     return `
       <div class="bg-surface-container-high rounded-xl overflow-hidden">
@@ -1455,7 +1460,7 @@ function updateSelTotal() {
 // ══ AMIGO CONFIRMAR ══
 function confirmarAmigo() {
   if (!amigoSel.size) { toast('Selecciona al menos un producto'); return; }
-  const items = activeBoleta.productos.filter(p => amigoSel.has(p.id));
+  const items = activeBoleta.productos.filter(p => amigoSel.has(p.id) && p.price > 0);
   const sub = items.reduce((a,b) => a+b.price, 0);
   const tip = tipEnabled ? Math.round(sub * 0.10) : 0;
   const total = sub + tip;
