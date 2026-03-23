@@ -33,20 +33,19 @@ export default async function handler(req, res) {
             },
             {
               type: 'text',
-              text: `Analiza esta boleta o cuenta de restaurant/bar chileno. Extrae TODOS los productos con sus precios.
-La imagen puede ser de noche o con poca luz — haz tu mejor esfuerzo.
+              text: `Analiza esta boleta o cuenta de restaurant/bar chileno. Extrae los productos con precio mayor a 0.
 
-Reglas importantes:
-- Incluye TODOS los productos, incluso los que tienen precio 0 (son items incluidos en combos o promociones)
-- Los items con precio 0 son válidos — inclúyelos con price: 0
-- Si un producto dice "+Coca Cola" o similar con precio 0, inclúyelo igual
+Reglas:
+- Incluye SOLO productos con precio mayor a 0
+- Omite items con precio 0 (son bebidas o acompañamientos incluidos en combos)
 - Precios en pesos chilenos como números enteros sin puntos ni comas (ej: 4700 no 4.700)
 - Si hay items duplicados, créalos como entradas separadas con IDs distintos
 - Ignora líneas de totales, subtotales, propina sugerida — solo productos individuales
+- La imagen puede ser de noche o con poca luz — haz tu mejor esfuerzo
 - Si definitivamente no es una boleta responde: {"error":"no es una boleta"}
 
 Responde SOLO con JSON válido, sin texto adicional ni markdown:
-{"lugar":"nombre del local","productos":[{"id":1,"name":"nombre producto","price":4700},{"id":2,"name":"+Coca Cola","price":0}]}`
+{"lugar":"nombre del local","productos":[{"id":1,"name":"nombre producto","price":4700}]}`
             }
           ]
         }]
@@ -62,6 +61,11 @@ Responde SOLO con JSON válido, sin texto adicional ni markdown:
     const text = data.content?.[0]?.text || '';
     const clean = text.replace(/```json|```/g, '').trim();
     const parsed = JSON.parse(clean);
+
+    // Doble filtro de seguridad — eliminar precio 0
+    if (parsed.productos) {
+      parsed.productos = parsed.productos.filter(p => p.price > 0);
+    }
 
     return res.status(200).json(parsed);
 
