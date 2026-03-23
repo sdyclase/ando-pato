@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
+<meta name="monetag" content="9728c70b96bc4632a8b2d3112cd4a153">
 <title>Ando Pato — Divide la cuenta</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
@@ -1464,7 +1465,7 @@ function updateSelTotal() {
 }
 
 // ══ AMIGO CONFIRMAR ══
-function confirmarAmigo() {
+async function confirmarAmigo() {
   if (!amigoSel.size) { toast('Selecciona al menos un producto'); return; }
   const items = activeBoleta.productos.filter(p => amigoSel.has(p.id) && p.price > 0);
   const sub = items.reduce((a,b) => a+b.price, 0);
@@ -1473,15 +1474,16 @@ function confirmarAmigo() {
   amigoSel.forEach(pid => { assignments[pid] = currentAmigo; });
   confirmed[currentAmigo] = { productIds: [...amigoSel], total, transferido: false };
 
-  // ── Guardar en Firebase ──
-  amigoSel.forEach(pid => fbSaveAssignment(pid, currentAmigo));  fbSaveConfirmed(currentAmigo, { productIds: [...amigoSel], total, transferido: false });
-
   // Si es el pagador, marcar como transferido automáticamente (él ya pagó)
   const esPagador = currentAmigo === bankData.nombre.split(' ')[0];
   if (esPagador) {
     confirmed[currentAmigo].transferido = true;
     confirmed[currentAmigo].horaTransferencia = 'pagador';
-    fbSaveTransferido(currentAmigo);
+    // Los assignments y confirmed se guardan en createFirebaseSession más abajo
+  } else {
+    // Para amigos, guardar en Firebase directamente (sessionId ya existe)
+    amigoSel.forEach(pid => fbSaveAssignment(pid, currentAmigo));
+    fbSaveConfirmed(currentAmigo, { productIds: [...amigoSel], total, transferido: false });
   }
 
   document.getElementById('ok-sub').textContent = `${currentAmigo}, tu consumo quedó registrado`;
@@ -1520,15 +1522,14 @@ function confirmarAmigo() {
   // Si es el pagador, crear sesión Firebase con sus productos ya marcados y generar link
   const esPagadorConfirm = currentAmigo === bankData.nombre.split(' ')[0];
   if (esPagadorConfirm) {
-    // Restaurar texto del botón confirmar
     const btnConfirmar = document.querySelector('#s-amigo-sel button[onclick="confirmarAmigo()"]');
     if (btnConfirmar) {
       btnConfirmar.innerHTML = '<span class="font-label text-white font-bold uppercase tracking-widest text-sm">Confirmar Mi Consumo</span><span class="material-symbols-outlined text-white">arrow_forward</span>';
     }
     toast('Generando link...');
-    createFirebaseSession().then(() => {
-      toast(`✓ Link generado — ${fmt(total)}`);
-    });
+    // Crear sesión primero (incluye assignments locales), luego ir a p3
+    await createFirebaseSession();
+    toast(`✓ Link generado — ${fmt(total)}`);
     go('s-p3');
   } else {
     go('s-amigo-ok');
