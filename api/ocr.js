@@ -23,7 +23,7 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
+        max_tokens: 1500,
         messages: [{
           role: 'user',
           content: [
@@ -33,7 +33,20 @@ export default async function handler(req, res) {
             },
             {
               type: 'text',
-              text: 'Analiza esta imagen de una boleta o cuenta de restaurant/bar. Extrae TODOS los productos con sus precios. La imagen puede ser de noche o con poca luz — haz tu mejor esfuerzo para leerla. Responde SOLO con JSON valido, sin texto adicional ni markdown: {"lugar":"nombre del local","productos":[{"id":1,"name":"nombre producto","price":12000}]} Reglas: precios en pesos chilenos como numeros enteros sin puntos ni comas. Si un precio no se lee bien estimalo. Si hay items duplicados crealos como entradas separadas. Si definitivamente no es una boleta responde: {"error":"no es una boleta"}'
+              text: `Analiza esta boleta o cuenta de restaurant/bar chileno. Extrae TODOS los productos con sus precios.
+La imagen puede ser de noche o con poca luz — haz tu mejor esfuerzo.
+
+Reglas importantes:
+- Incluye TODOS los productos, incluso los que tienen precio 0 (son items incluidos en combos o promociones)
+- Los items con precio 0 son válidos — inclúyelos con price: 0
+- Si un producto dice "+Coca Cola" o similar con precio 0, inclúyelo igual
+- Precios en pesos chilenos como números enteros sin puntos ni comas (ej: 4700 no 4.700)
+- Si hay items duplicados, créalos como entradas separadas con IDs distintos
+- Ignora líneas de totales, subtotales, propina sugerida — solo productos individuales
+- Si definitivamente no es una boleta responde: {"error":"no es una boleta"}
+
+Responde SOLO con JSON válido, sin texto adicional ni markdown:
+{"lugar":"nombre del local","productos":[{"id":1,"name":"nombre producto","price":4700},{"id":2,"name":"+Coca Cola","price":0}]}`
             }
           ]
         }]
