@@ -422,21 +422,21 @@ tailwind.config = {
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Nombre Completo</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-primary-dim/40 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">person</span>
-          <input id="b-nombre" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-body outline-none" placeholder="Ej. Samuel Godoy" type="text" value="Samuel Godoy"/>
+          <input id="b-nombre" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-body outline-none" placeholder="Ej. Juan Pérez" type="text" value=""/>
         </div>
       </div>
       <div>
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">RUT</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">badge</span>
-          <input id="b-rut" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="12.345.678-9" type="text" value="12.345.678-9"/>
+          <input id="b-rut" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="Ej. 12.345.678-9" type="text" value=""/>
         </div>
       </div>
       <div>
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Email</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">email</span>
-          <input id="b-email" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="correo@gmail.com" type="email" value="sdyclase@gmail.com"/>
+          <input id="b-email" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="correo@gmail.com" type="email" value=""/>
         </div>
       </div>
       <div>
@@ -461,7 +461,7 @@ tailwind.config = {
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Número de Cuenta</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">pin</span>
-          <input id="b-cuenta" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="12345678911" type="text" value="12345678911"/>
+          <input id="b-cuenta" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="Ej. 12345678911" type="text" value=""/>
         </div>
       </div>
       <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10 flex items-start gap-4">
@@ -885,7 +885,7 @@ const BOLETAS = [
 // ══ STATE ══
 const AVCOLORS = ['bg-primary-dim','bg-tertiary-container','bg-[#186366]','bg-[#8A09F5]','bg-[#0046A8]','bg-[#7c3aed]','bg-[#0e7490]'];
 let tipEnabled = true;
-let bankData = {nombre:'Samuel Godoy', rut:'12.345.678-9', banco:'Banco de Chile', cuenta:'12345678911', email:'sdyclase@gmail.com', tipoCuenta:'Cuenta Corriente'};
+let bankData = {nombre:'', rut:'', banco:'Banco Estado', cuenta:'', email:'', tipoCuenta:'Cuenta Corriente'};
 let assignments = {};
 let confirmed = {};
 let currentAmigo = '';
@@ -1199,11 +1199,17 @@ async function entrarConNick() {
       setTimeout(() => go('s-upload'), 700);
 
     } else {
-      // Nick nuevo — guardar PIN y llevar a datos bancarios
-      // Guardar el PIN provisionalmente para usarlo al guardar el perfil
+      // Nick nuevo — resetear bankData y limpiar formulario
+      bankData = {nombre:'', rut:'', banco:'Banco Estado', cuenta:'', email:'', tipoCuenta:'Cuenta Corriente'};
+      document.getElementById('b-nick').value = nick;
+      document.getElementById('b-nombre').value = '';
+      document.getElementById('b-rut').value = '';
+      document.getElementById('b-email').value = '';
+      document.getElementById('b-cuenta').value = '';
+      document.getElementById('b-banco').selectedIndex = 0;
+      document.getElementById('b-tipo').selectedIndex = 0;
       window._nickPendiente = nick;
       window._pinPendiente = pin;
-      document.getElementById('b-nick').value = nick;
       feedback.className = 'px-1 font-label text-xs text-tertiary';
       feedback.textContent = `Nick "${nick}" es nuevo — completa tus datos`;
       toast('Nick nuevo — ingresa tus datos');
