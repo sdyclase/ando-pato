@@ -88,7 +88,7 @@ tailwind.config = {
         Cuentas Claras,<br/>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-dim to-tertiary-container">Sin Drama.</span>
       </h2>
-      <p class="text-on-surface-variant text-sm max-w-[80%] mx-auto">La forma más rápida de dividir gastos después de carretear con tus amigos.</p>
+      <p class="text-on-surface-variant text-sm max-w-[80%] mx-auto">La forma más rápida de dividir gastos después de la fiesta o la cena.</p>
     </section>
 
     <!-- Card Yo pagué -->
@@ -316,7 +316,33 @@ tailwind.config = {
   </header>
   <main class="px-6 pt-8 pb-28 max-w-lg mx-auto flex-1">
     <h2 class="font-headline text-4xl font-black uppercase tracking-tighter mb-2">Tus Datos</h2>
-    <p class="text-on-surface-variant mb-8 text-sm">Configura dónde quieres que te transfieran.</p>
+    <p class="text-on-surface-variant mb-6 text-sm">Configura dónde quieres que te transfieran.</p>
+
+    <!-- Pegado inteligente -->
+    <div class="bg-surface-container-low rounded-xl p-4 border border-primary-dim/20 mb-6">
+      <div class="flex items-center gap-2 mb-3">
+        <span class="material-symbols-outlined text-primary text-lg" style="font-variation-settings:'FILL' 1;">auto_awesome</span>
+        <p class="font-label text-xs font-bold text-primary uppercase tracking-widest">Pegar desde tu banco</p>
+      </div>
+      <p class="text-on-surface-variant text-xs mb-3 leading-relaxed">Copia los datos de tu app bancaria y pégalos aquí — los detectamos automáticamente.</p>
+      <textarea id="paste-input" rows="3" class="w-full bg-surface-container-high rounded-xl p-3 text-on-surface font-label text-xs outline-none border border-outline-variant/20 focus:border-primary-dim resize-none placeholder:text-outline" placeholder="Ej: Samuel Godoy / RUT 12.345.678-9 / Banco de Chile / Cta Cte 12345678911"></textarea>
+      <button onclick="parsearDatosBanco()" class="mt-3 w-full h-10 bg-primary-dim/20 border border-primary-dim/40 rounded-xl font-label font-bold text-primary text-xs uppercase tracking-widest active:scale-95 transition-all hover:bg-primary-dim/30 flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-sm">auto_fix_high</span>
+        Detectar datos automáticamente
+      </button>
+      <div id="paste-result" class="hidden mt-3 p-3 bg-[#25D366]/10 border border-[#25D366]/30 rounded-xl">
+        <p class="font-label text-xs font-bold text-[#25D366] uppercase tracking-widest mb-1">✓ Datos detectados — revisa abajo</p>
+      </div>
+      <div id="paste-error" class="hidden mt-3 p-3 bg-error/10 border border-error/30 rounded-xl">
+        <p class="font-label text-xs text-error" id="paste-error-msg">No se pudieron detectar los datos. Completa el formulario manualmente.</p>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-3 mb-5">
+      <div class="flex-1 h-px bg-outline-variant/30"></div>
+      <span class="font-label text-[10px] text-outline uppercase tracking-widest">O completa manualmente</span>
+      <div class="flex-1 h-px bg-outline-variant/30"></div>
+    </div>
     <div class="space-y-5">
       <div>
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Nombre Completo</label>
@@ -329,7 +355,14 @@ tailwind.config = {
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">RUT</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">badge</span>
-          <input id="b-rut" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="17.892.341-5" type="text" value="17.892.341-5"/>
+          <input id="b-rut" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="12.345.678-9" type="text" value="12.345.678-9"/>
+        </div>
+      </div>
+      <div>
+        <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Email</label>
+        <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
+          <span class="material-symbols-outlined text-outline-variant mr-3">email</span>
+          <input id="b-email" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="correo@gmail.com" type="email" value="sdyclase@gmail.com"/>
         </div>
       </div>
       <div>
@@ -337,7 +370,16 @@ tailwind.config = {
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">account_balance</span>
           <select id="b-banco" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-body appearance-none outline-none">
-            <option>Banco Estado</option><option>Santander</option><option>BCI</option><option>Banco de Chile</option><option>Itaú</option>
+            <option>Banco Estado</option><option>Santander</option><option>BCI</option><option selected>Banco de Chile</option><option>Itaú</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Tipo de Cuenta</label>
+        <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
+          <span class="material-symbols-outlined text-outline-variant mr-3">credit_card</span>
+          <select id="b-tipo" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-body appearance-none outline-none">
+            <option selected>Cuenta Corriente</option><option>Cuenta Vista</option><option>Cuenta RUT</option><option>Cuenta de Ahorro</option>
           </select>
         </div>
       </div>
@@ -345,7 +387,7 @@ tailwind.config = {
         <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Número de Cuenta</label>
         <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
           <span class="material-symbols-outlined text-outline-variant mr-3">pin</span>
-          <input id="b-cuenta" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="76-120-98432-1" type="text" value="76-120-98432-1"/>
+          <input id="b-cuenta" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-label outline-none" placeholder="12345678911" type="text" value="12345678911"/>
         </div>
       </div>
       <div class="bg-surface-container-low p-4 rounded-xl border border-outline-variant/10 flex items-start gap-4">
@@ -457,9 +499,12 @@ tailwind.config = {
         <p class="text-[10px] text-on-surface-variant leading-tight">Cada amigo puede escanear este QR para transferirte directamente.</p>
       </div>
     </div>
+    <!-- Botón Notificar y Cobrar — pendiente implementación futura -->
+    <div style="display:none">
     <button class="w-full bg-gradient-to-tr from-primary-dim to-tertiary-container text-white py-5 rounded-xl font-label font-bold uppercase tracking-widest text-sm neon-glow active:scale-95 transition-all flex items-center justify-center gap-3">
       <span class="material-symbols-outlined">send</span> NOTIFICAR Y COBRAR
     </button>
+    </div>
   </main>
 </div>
 
@@ -589,11 +634,18 @@ tailwind.config = {
 
     <!-- Datos de transferencia -->
     <div class="bg-surface-container-highest rounded-xl p-5 space-y-3">
-      <p class="font-label text-xs font-bold text-primary uppercase tracking-widest mb-1">TRANSFERIR A</p>
+      <div class="flex items-center justify-between mb-1">
+        <p class="font-label text-xs font-bold text-primary uppercase tracking-widest">TRANSFERIR A</p>
+        <button onclick="copiarDatosBancarios()" class="flex items-center gap-1.5 px-3 py-1.5 bg-primary-dim/20 rounded-full text-primary font-label text-[10px] font-bold uppercase tracking-widest active:scale-95 transition-all hover:bg-primary-dim/30">
+          <span class="material-symbols-outlined text-sm">content_copy</span> Copiar datos
+        </button>
+      </div>
       <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Nombre</span><span class="font-label font-bold" id="ok-nombre">—</span></div>
-      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Banco</span><span class="font-label font-bold" id="ok-banco">—</span></div>
-      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Cuenta</span><span class="font-label font-bold" id="ok-cuenta">—</span></div>
       <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">RUT</span><span class="font-label font-bold" id="ok-rut">—</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Email</span><span class="font-label font-bold" id="ok-email">—</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Banco</span><span class="font-label font-bold" id="ok-banco">—</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Tipo</span><span class="font-label font-bold" id="ok-tipo">—</span></div>
+      <div class="flex justify-between text-sm"><span class="text-on-surface-variant font-label uppercase text-[10px] tracking-widest">Cuenta</span><span class="font-label font-bold" id="ok-cuenta">—</span></div>
       <div class="flex justify-between items-center pt-3 border-t border-outline-variant/20">
         <span class="text-primary font-label uppercase text-[10px] tracking-widest font-bold">Monto exacto</span>
         <span class="font-label font-bold text-lg text-primary" id="ok-monto">—</span>
@@ -759,7 +811,7 @@ const BOLETAS = [
 // ══ STATE ══
 const AVCOLORS = ['bg-primary-dim','bg-tertiary-container','bg-[#186366]','bg-[#8A09F5]','bg-[#0046A8]','bg-[#7c3aed]','bg-[#0e7490]'];
 let tipEnabled = true;
-let bankData = {nombre:'Samuel Godoy', rut:'17.892.341-5', banco:'Banco de Chile', cuenta:'76-120-98432-1'};
+let bankData = {nombre:'Samuel Godoy', rut:'12.345.678-9', banco:'Banco de Chile', cuenta:'12345678911', email:'sdyclase@gmail.com', tipoCuenta:'Cuenta Corriente'};
 let assignments = {};
 let confirmed = {};
 let currentAmigo = '';
@@ -957,12 +1009,14 @@ function savePeopleGo() {
 // ══ BANK ══
 function saveBankGo() {
   bankData = {
-    nombre: document.getElementById('b-nombre').value || 'Samuel Godoy',
-    rut:    document.getElementById('b-rut').value || '17.892.341-5',
-    banco:  document.getElementById('b-banco').value || 'Banco de Chile',
-    cuenta: document.getElementById('b-cuenta').value || '76-120-98432-1',
+    nombre:     document.getElementById('b-nombre').value || 'Samuel Godoy',
+    rut:        document.getElementById('b-rut').value || '12.345.678-9',
+    email:      document.getElementById('b-email').value || 'sdyclase@gmail.com',
+    banco:      document.getElementById('b-banco').value || 'Banco de Chile',
+    tipoCuenta: document.getElementById('b-tipo').value || 'Cuenta Corriente',
+    cuenta:     document.getElementById('b-cuenta').value || '12345678911',
   };
-  generateQR('p4-qr', `Transferencia a ${bankData.nombre} | RUT ${bankData.rut} | ${bankData.banco} | Cta ${bankData.cuenta}`, 80);
+  generateQR('p4-qr', `${bankData.banco} | ${bankData.nombre} | RUT: ${bankData.rut} | ${bankData.tipoCuenta}: ${bankData.cuenta}`, 80);
   createFirebaseSession();
   go('s-p3');
 }
@@ -1155,6 +1209,8 @@ function confirmarAmigo() {
   document.getElementById('ok-banco').textContent = bankData.banco;
   document.getElementById('ok-cuenta').textContent = bankData.cuenta;
   document.getElementById('ok-rut').textContent = bankData.rut;
+  document.getElementById('ok-email').textContent = bankData.email || '—';
+  document.getElementById('ok-tipo').textContent = bankData.tipoCuenta || 'Cuenta Corriente';
   document.getElementById('ok-monto').textContent = fmt(total);
   document.getElementById('ok-qr-monto').textContent = fmt(total);
   document.getElementById('ok-qr-nombre').textContent = bankData.nombre;
@@ -1213,6 +1269,92 @@ function confirmarTransferencia() {
 
   go('s-amigo-transferido');
   renderP3();
+}
+
+// ══ PARSEAR DATOS BANCO DESDE TEXTO PEGADO ══
+function parsearDatosBanco() {
+  const texto = document.getElementById('paste-input').value.trim();
+  if (!texto) { toast('Pega el texto primero'); return; }
+
+  const t = texto.toLowerCase();
+  let detectado = {};
+
+  // Detectar nombre — busca patrones comunes
+  const nombreMatch = texto.match(/(?:nombre[:\s]+|a nombre de[:\s]+)([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){1,3})/i)
+    || texto.match(/^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?:\s+[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+){1,3})/m);
+  if (nombreMatch) detectado.nombre = nombreMatch[1].trim();
+
+  // Detectar RUT
+  const rutMatch = texto.match(/(?:rut[:\s.]+)?(\d{1,2}[\.\d]*\d{3}-[\dkK])/i);
+  if (rutMatch) detectado.rut = rutMatch[1];
+
+  // Detectar email
+  const emailMatch = texto.match(/[\w.-]+@[\w.-]+\.\w+/);
+  if (emailMatch) detectado.email = emailMatch[0];
+
+  // Detectar banco
+  const bancos = ['banco estado','santander','bci','banco de chile','itaú','itau','scotiabank','falabella','ripley','security','bice','hsbc','internacional'];
+  for (const b of bancos) {
+    if (t.includes(b)) {
+      detectado.banco = b.split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      break;
+    }
+  }
+
+  // Detectar tipo de cuenta
+  if (t.includes('cuenta corriente') || t.includes('cta cte') || t.includes('cta. cte')) detectado.tipoCuenta = 'Cuenta Corriente';
+  else if (t.includes('cuenta vista') || t.includes('cta vista')) detectado.tipoCuenta = 'Cuenta Vista';
+  else if (t.includes('cuenta rut') || t.includes('cta rut')) detectado.tipoCuenta = 'Cuenta RUT';
+  else if (t.includes('cuenta de ahorro') || t.includes('ahorro')) detectado.tipoCuenta = 'Cuenta de Ahorro';
+
+  // Detectar número de cuenta — secuencia de 6-16 dígitos
+  const cuentaMatch = texto.match(/(?:cta\.?|cuenta|n[°º]?)[:\s#]*(\d[\d\s-]{5,15}\d)/i)
+    || texto.match(/\b(\d{8,16})\b/);
+  if (cuentaMatch) detectado.cuenta = cuentaMatch[1].replace(/[\s-]/g, '');
+
+  const campos = Object.keys(detectado).length;
+  if (campos === 0) {
+    document.getElementById('paste-error').classList.remove('hidden');
+    document.getElementById('paste-result').classList.add('hidden');
+    document.getElementById('paste-error-msg').textContent = 'No se detectaron datos. Intenta con otro formato o completa el formulario manualmente.';
+    return;
+  }
+
+  // Rellenar formulario con datos detectados
+  if (detectado.nombre) document.getElementById('b-nombre').value = detectado.nombre;
+  if (detectado.rut) document.getElementById('b-rut').value = detectado.rut;
+  if (detectado.email) document.getElementById('b-email').value = detectado.email;
+  if (detectado.banco) {
+    const sel = document.getElementById('b-banco');
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text.toLowerCase().includes(detectado.banco.toLowerCase())) {
+        sel.selectedIndex = i; break;
+      }
+    }
+  }
+  if (detectado.tipoCuenta) {
+    const sel = document.getElementById('b-tipo');
+    for (let i = 0; i < sel.options.length; i++) {
+      if (sel.options[i].text === detectado.tipoCuenta) { sel.selectedIndex = i; break; }
+    }
+  }
+  if (detectado.cuenta) document.getElementById('b-cuenta').value = detectado.cuenta;
+
+  document.getElementById('paste-result').classList.remove('hidden');
+  document.getElementById('paste-error').classList.add('hidden');
+  toast(`✓ ${campos} dato${campos > 1 ? 's' : ''} detectado${campos > 1 ? 's' : ''}`);
+}
+
+// ══ COPIAR DATOS BANCARIOS ══
+function copiarDatosBancarios() {
+  const texto = `Transferencia a ${bankData.nombre}
+RUT: ${bankData.rut}
+Email: ${bankData.email || '—'}
+Banco: ${bankData.banco}
+${bankData.tipoCuenta || 'Cuenta'}: ${bankData.cuenta}
+Monto: ${document.getElementById('ok-monto').textContent}`;
+  navigator.clipboard?.writeText(texto).catch(() => {});
+  toast('Datos copiados ✓');
 }
 
 // ══ SHARE ══
