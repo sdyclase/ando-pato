@@ -1297,7 +1297,9 @@ function generateQR(canvasId, text, size) {
 // ══ PAGADOR 3 ══
 function renderP3() {
   const names = Object.keys(confirmed);
-  const total = grand();
+  // Total real = suma de lo que cada persona confirmó
+  const totalConfirmado = names.reduce((a,n) => a + confirmed[n].total, 0);
+  const total = totalConfirmado || grand();
   const recaudado = names.filter(n => confirmed[n].transferido).reduce((a,n) => a + confirmed[n].total, 0);
   const pct = total > 0 ? Math.min(100, Math.round(recaudado / total * 100)) : 0;
   const transferidos = names.filter(n => confirmed[n].transferido).length;
