@@ -1712,14 +1712,25 @@ async function createFirebaseSession() {
   if (!window.fbReady) { toast('Conectando con Firebase...'); return; }
   sessionId = generateId();
 
+  // Incluir assignments actuales (productos de Samuel) desde el inicio
+  const assignmentsObj = {};
+  Object.entries(assignments).forEach(([pid, name]) => {
+    assignmentsObj[`p${pid}`] = name;
+  });
+
+  const confirmedObj = {};
+  Object.entries(confirmed).forEach(([name, val]) => {
+    confirmedObj[name] = val;
+  });
+
   const sessionData = {
     lugar: activeBoleta.lugar,
     productos: activeBoleta.productos,
     pagador: bankData,
     tipEnabled,
     persons: persons,
-    assignments: {},
-    confirmed: {},
+    assignments: assignmentsObj,
+    confirmed: confirmedObj,
     createdAt: Date.now()
   };
 
