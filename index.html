@@ -1461,8 +1461,7 @@ function confirmarAmigo() {
   confirmed[currentAmigo] = { productIds: [...amigoSel], total, transferido: false };
 
   // ── Guardar en Firebase ──
-  amigoSel.forEach(pid => fbSaveAssignment(pid, currentAmigo));
-  fbSaveConfirmed(currentAmigo, { productIds: [...amigoSel], total, transferido: false });
+  amigoSel.forEach(pid => fbSaveAssignment(pid, currentAmigo));  fbSaveConfirmed(currentAmigo, { productIds: [...amigoSel], total, transferido: false });
 
   // Si es el pagador, marcar como transferido automáticamente (él ya pagó)
   const esPagador = currentAmigo === bankData.nombre.split(' ')[0];
@@ -1739,8 +1738,9 @@ function startRealtimeListener() {
       if (!data) return;
 
       if (data.assignments) {
-        Object.entries(data.assignments).forEach(([pid, name]) => {
-          assignments[parseInt(pid)] = name;
+        Object.entries(data.assignments).forEach(([key, name]) => {
+          const pid = parseInt(key.replace('p',''));
+          if (!isNaN(pid)) assignments[pid] = name;
         });
       }
       if (data.confirmed) {
@@ -1760,7 +1760,7 @@ function startRealtimeListener() {
 async function fbSaveAssignment(pid, name) {
   if (!sessionId || !window.fbReady) return;
   try {
-    await window.fbUpdate(window.fbRef(window.fbDB, `sesiones/${sessionId}/assignments`), { [pid]: name });
+    await window.fbUpdate(window.fbRef(window.fbDB, `sesiones/${sessionId}/assignments`), { [`p${pid}`]: name });
   } catch(e) { console.warn('Firebase sync error:', e); }
 }
 
@@ -1801,8 +1801,9 @@ async function loadSessionFromURL() {
     persons = data.persons || [];
 
     if (data.assignments) {
-      Object.entries(data.assignments).forEach(([pid, name]) => {
-        assignments[parseInt(pid)] = name;
+      Object.entries(data.assignments).forEach(([key, name]) => {
+        const pid = parseInt(key.replace('p',''));
+        if (!isNaN(pid)) assignments[pid] = name;
       });
     }
     if (data.confirmed) {
