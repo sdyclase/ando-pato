@@ -88,7 +88,7 @@ tailwind.config = {
         Cuentas Claras,<br/>
         <span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-dim to-tertiary-container">Sin Drama.</span>
       </h2>
-      <p class="text-on-surface-variant text-sm max-w-[80%] mx-auto">La forma más rápida de dividir gastos después de carretear con los amigos.</p>
+      <p class="text-on-surface-variant text-sm max-w-[80%] mx-auto">La forma más rápida de dividir gastos después de la fiesta o la cena.</p>
     </section>
 
     <!-- Card Yo pagué -->
@@ -904,6 +904,17 @@ function go(id) {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
   document.getElementById(id).classList.add('active');
   window.scrollTo(0,0);
+  if (id === 's-home') {
+    // Limpiar estado al volver al home
+    assignments = {};
+    confirmed = {};
+    persons = [];
+    amigoSel = new Set();
+    currentAmigo = '';
+    sessionId = null;
+    if (fbListener) { fbListener(); fbListener = null; }
+    activeBoleta = BOLETAS[0];
+  }
   if (id === 's-p3') renderP3();
   if (id === 's-amigo-entrada') { renderQuickNames(); document.getElementById('amigo-place').textContent = activeBoleta.lugar; }
   if (id === 's-personas') renderPersonas();
@@ -1110,6 +1121,16 @@ async function entrarConNick() {
   feedback.className = 'px-1 font-label text-xs text-tertiary';
   feedback.textContent = 'Verificando...';
   feedback.classList.remove('hidden');
+
+  // ── Limpiar estado anterior siempre ──
+  assignments = {};
+  confirmed = {};
+  persons = [];
+  amigoSel = new Set();
+  currentAmigo = '';
+  sessionId = null;
+  if (fbListener) { fbListener(); fbListener = null; }
+  activeBoleta = BOLETAS[0];
 
   if (!window.fbReady) {
     feedback.classList.add('hidden');
