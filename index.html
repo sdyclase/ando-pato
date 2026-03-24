@@ -736,7 +736,7 @@ tailwind.config = {
         <span class="flex h-2 w-2 rounded-full bg-tertiary animate-pulse"></span>
       </div>
       <div class="bg-surface-container-low rounded-lg p-4 flex items-center justify-between">
-        <code class="font-label text-primary font-medium tracking-tight text-sm">yo-pago.vercel.app/...</code>
+        <code class="font-label text-primary font-medium tracking-tight text-sm">ando-pato.vercel.app/...</code>
         <button onclick="copyLink()" class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-primary">
           <span class="material-symbols-outlined">content_copy</span>
         </button>
@@ -1917,13 +1917,13 @@ Monto: ${document.getElementById('ok-monto').textContent}`;
 // ══ SHARE ══
 function shareWsp() {
   if (!sessionId) { toast('Primero genera el link'); return; }
-  const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
+  const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
   const msg = encodeURIComponent(`Hola! 👋 Paga tu parte de ${activeBoleta.lugar} en Yo Pago 💸\n${link}\n\nTotal mesa: ${fmt(grand())}`);
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 function copyLink() {
   if (!sessionId) { toast('Primero genera el link'); return; }
-  const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
+  const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
   navigator.clipboard?.writeText(link).catch(() => {});
   // Actualizar el código visible en pantalla
   document.querySelectorAll('code').forEach(el => {
@@ -1971,7 +1971,7 @@ async function createFirebaseSession() {
   try {
     await window.fbSet(window.fbRef(window.fbDB, `sesiones/${sessionId}`), sessionData);
     // Mostrar link real en pantalla
-    const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
+    const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
     document.querySelectorAll('code').forEach(el => {
       if (el.textContent.includes('ando.pato') || el.textContent.includes('vercel.app')) {
         el.textContent = link;
