@@ -156,8 +156,9 @@ tailwind.config = {
       </div>
     </div>
   </main>
-  <footer class="pb-8 text-center">
-    <p class="font-label text-[10px] text-outline uppercase tracking-widest">Creado por Samuel G</p>
+  <footer class="pb-8 text-center space-y-1" onclick="footerClickSecret()">
+    <p class="font-label text-[10px] text-outline uppercase tracking-widest">Creado por Samuel Godoy</p>
+    <a href="tel:+56945999492" class="font-label text-[10px] text-primary-dim uppercase tracking-widest block hover:text-primary transition-colors">+56 9 4599 9492</a>
   </footer>
 </div>
 
@@ -1035,6 +1036,86 @@ tailwind.config = {
   </main>
 </div>
 
+
+<!-- ══ ADMIN PANEL ══ -->
+<div class="screen" id="s-admin">
+  <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
+    <div class="flex items-center gap-3">
+      <button onclick="go('s-home')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
+    </div>
+    <span class="font-label text-xs text-tertiary uppercase tracking-widest font-bold">Admin</span>
+  </header>
+  <main class="px-6 pt-6 pb-28 max-w-lg mx-auto flex-1 space-y-6">
+
+    <!-- PIN de acceso -->
+    <div id="admin-login" class="">
+      <div class="text-center mb-8">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-tr from-primary-dim to-tertiary-container flex items-center justify-center mx-auto mb-4 shadow-[0_0_30px_rgba(108,93,244,0.4)]">
+          <span class="material-symbols-outlined text-white text-3xl" style="font-variation-settings:'FILL' 1;">admin_panel_settings</span>
+        </div>
+        <h2 class="font-headline font-black text-3xl uppercase tracking-tighter mb-2">Panel Admin</h2>
+        <p class="text-on-surface-variant text-sm">Ingresa el PIN de administrador.</p>
+      </div>
+      <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-primary-dim/40 focus-within:border-primary-dim transition-all mb-4">
+        <span class="material-symbols-outlined text-outline-variant mr-3">lock</span>
+        <input id="admin-pin-input" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-headline font-bold text-2xl tracking-[0.5em] outline-none placeholder:text-outline-variant placeholder:font-normal placeholder:text-base placeholder:tracking-normal" placeholder="••••••" type="password" inputmode="numeric" maxlength="6" onkeydown="if(event.key==='Enter')verificarAdminPin()"/>
+      </div>
+      <button onclick="verificarAdminPin()" class="w-full h-14 bg-gradient-to-tr from-primary-dim to-tertiary-container rounded-xl flex items-center justify-center gap-3 font-label font-bold text-white uppercase tracking-widest text-sm shadow-[0_10px_30px_rgba(108,93,244,0.3)] active:scale-95 transition-all">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">login</span>
+        INGRESAR
+      </button>
+      <div id="admin-pin-error" class="hidden mt-3 text-center font-label text-xs text-error">PIN incorrecto</div>
+    </div>
+
+    <!-- Dashboard (oculto hasta autenticar) -->
+    <div id="admin-dashboard" class="hidden space-y-6">
+
+      <!-- Stats resumen -->
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-surface-container-high rounded-xl p-4 border border-primary-dim/20">
+          <p class="font-label text-[10px] uppercase text-outline mb-1 tracking-widest">Sesiones</p>
+          <p class="font-headline text-3xl font-black tracking-tighter text-primary" id="admin-stat-sesiones">—</p>
+        </div>
+        <div class="bg-surface-container-high rounded-xl p-4 border border-tertiary/20">
+          <p class="font-label text-[10px] uppercase text-outline mb-1 tracking-widest">Usuarios</p>
+          <p class="font-headline text-3xl font-black tracking-tighter text-tertiary" id="admin-stat-usuarios">—</p>
+        </div>
+        <div class="bg-surface-container-high rounded-xl p-4 border border-[#25D366]/20">
+          <p class="font-label text-[10px] uppercase text-outline mb-1 tracking-widest">Transferido</p>
+          <p class="font-headline text-2xl font-black tracking-tighter text-[#25D366]" id="admin-stat-total">—</p>
+        </div>
+        <div class="bg-surface-container-high rounded-xl p-4 border border-outline-variant/20">
+          <p class="font-label text-[10px] uppercase text-outline mb-1 tracking-widest">Boletas OCR</p>
+          <p class="font-headline text-3xl font-black tracking-tighter text-on-surface" id="admin-stat-ocr">—</p>
+        </div>
+      </div>
+
+      <!-- Usuarios registrados -->
+      <div>
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="font-headline font-bold text-lg uppercase tracking-tight">Usuarios</h3>
+          <button onclick="loadAdminData()" class="flex items-center gap-1 px-3 py-1.5 bg-surface-container-high rounded-full font-label text-xs text-primary-dim active:scale-95">
+            <span class="material-symbols-outlined text-sm">refresh</span> Actualizar
+          </button>
+        </div>
+        <div id="admin-users-list" class="space-y-2">
+          <div class="flex items-center justify-center py-8">
+            <div class="w-5 h-5 border-2 border-primary-dim border-t-transparent rounded-full animate-spin"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sesiones recientes -->
+      <div>
+        <h3 class="font-headline font-bold text-lg uppercase tracking-tight mb-3">Sesiones Recientes</h3>
+        <div id="admin-sessions-list" class="space-y-2"></div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
 <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 translate-y-24 bg-surface-container-highest border border-primary-dim text-on-surface px-5 py-3 rounded-full text-sm font-label font-bold z-[999] transition-transform duration-300 whitespace-nowrap pointer-events-none"></div>
 
 <script>
@@ -1341,14 +1422,54 @@ function saveBankGo() {
     cuenta:     document.getElementById('b-cuenta').value || '12345678911',
   };
 
-  // Guardar perfil con nick si se ingresó
   const nick = document.getElementById('b-nick').value.trim().toLowerCase();
   if (nick) guardarPerfil(nick);
-
   generateQR('p4-qr', `${bankData.banco} | ${bankData.nombre} | RUT: ${bankData.rut} | ${bankData.tipoCuenta}: ${bankData.cuenta}`, 80);
 
-  // Ir a selección de productos de Samuel ANTES de generar el link
-  entrarComoPagador();
+  // Modo split: construir boleta con pagador + amigos y crear sesión
+  const esModoSplit = !!(window._splitAmigos);
+  if (esModoSplit) {
+    const pagadorNombre = bankData.nombre.split(' ')[0];
+    const amigos = window._splitAmigos;
+    const porPersona = window._splitPorPersona;
+    const montoRaw = window._splitMontoRaw;
+    const n = window._splitN;
+
+    // Construir boleta: [pagador, amigo1, amigo2, ...]
+    const todasPersonas = [pagadorNombre, ...amigos];
+    activeBoleta = {
+      id: 'split-' + Date.now(),
+      lugar: 'División igualitaria',
+      emoji: '⚖️',
+      productos: todasPersonas.map((name, i) => ({
+        id: i + 1,
+        name: `Parte de ${name}`,
+        price: Math.ceil(montoRaw / n)
+      }))
+    };
+    persons = amigos; // solo amigos pendientes de pagar
+
+    // Marcar producto del pagador como ya pagado
+    const tip = tipEnabled ? Math.round(Math.ceil(montoRaw / n) * 0.10) : 0;
+    assignments[1] = pagadorNombre; // producto id:1 es del pagador
+    confirmed[pagadorNombre] = {
+      productIds: [1],
+      total: Math.ceil(montoRaw / n) + tip,
+      transferido: true,
+      horaTransferencia: 'pagador'
+    };
+
+    // Limpiar variables temporales
+    window._splitAmigos = null;
+
+    toast('Generando link...');
+    createFirebaseSession().then(() => {
+      toast('✓ Link generado');
+      go('s-p3');
+    });
+  } else {
+    entrarComoPagador();
+  }
 }
 
 // ══ NICK — ENTRADA ══
@@ -1641,7 +1762,8 @@ function entrarComoPagador() {
   renderSelProducts();
 }
 function renderQuickNames() {
-  const available = persons.filter(n => !confirmed[n]);
+  // Filtrar: sin confirmados Y sin nombres genéricos tipo "Persona N"
+  const available = persons.filter(n => !confirmed[n] && !/^Persona \d+$/i.test(n));
   document.getElementById('quick-names').innerHTML = available.length ? available.map(n =>
     `<button onclick="document.getElementById('friend-name').value='${n}';entrarAmigo()" class="px-4 py-2 bg-surface-container-high rounded-full font-label text-xs font-bold uppercase tracking-widest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright transition-all active:scale-90">${n}</button>`
   ).join('') : '';
@@ -2170,33 +2292,155 @@ async function generarSesionSplit() {
   const conTip = splitTipEnabled ? Math.round(montoRaw * 1.10) : Math.round(montoRaw);
   const porPersona = Math.ceil(conTip / n);
 
-  // Construir boleta artificial con N items iguales
-  const names = splitPersonas.length >= n
-    ? splitPersonas.slice(0, n)
-    : [...splitPersonas, ...Array(n - splitPersonas.length).fill(null).map((_,i) => `Persona ${i + splitPersonas.length + 1}`)];
+  // Los amigos son los que deben pagar — sus nombres vienen de splitPersonas
+  // El pagador NO está en esta lista — su nombre lo tomamos de bankData después
+  // Si hay menos nombres que personas, rellenar con genéricos SOLO para los amigos
+  const nAmigos = n - 1; // el pagador ocupa 1 slot
+  const amigos = splitPersonas.length >= nAmigos
+    ? splitPersonas.slice(0, nAmigos)
+    : [...splitPersonas, ...Array(nAmigos - splitPersonas.length).fill(null).map((_,i) => `Amigo ${i + splitPersonas.length + 1}`)];
 
-  activeBoleta = {
-    id: 'split-' + Date.now(),
-    lugar: 'División igualitaria',
-    emoji: '⚖️',
-    productos: names.map((name, i) => ({
-      id: i + 1,
-      name: `Parte de ${name}`,
-      price: Math.ceil(montoRaw / n)
-    }))
-  };
+  // Guardar para uso posterior en saveBankGo
+  window._splitAmigos = amigos;
+  window._splitPorPersona = porPersona;
+  window._splitMontoRaw = montoRaw;
+  window._splitTip = splitTipEnabled;
+  window._splitN = n;
+
   tipEnabled = splitTipEnabled;
-  persons = names;
   assignments = {};
   confirmed = {};
+  persons = amigos; // solo los amigos aparecen como pendientes
 
-  // Ir a datos bancarios directamente
   toast('Monto calculado ✓');
   go('s-p2');
 }
 
+
+// ══ ADMIN ══
+const ADMIN_PIN = '190290'; // PIN secreto — cámbialo cuando quieras
+
+function verificarAdminPin() {
+  const pin = document.getElementById('admin-pin-input').value;
+  if (pin === ADMIN_PIN) {
+    document.getElementById('admin-login').classList.add('hidden');
+    document.getElementById('admin-dashboard').classList.remove('hidden');
+    loadAdminData();
+  } else {
+    document.getElementById('admin-pin-error').classList.remove('hidden');
+    document.getElementById('admin-pin-input').value = '';
+    document.getElementById('admin-pin-input').focus();
+    setTimeout(() => document.getElementById('admin-pin-error').classList.add('hidden'), 2000);
+  }
+}
+
+async function loadAdminData() {
+  if (!window.fbReady) { toast('Firebase no conectado'); return; }
+  try {
+    // Cargar perfiles (usuarios)
+    const snapPerfiles = await window.fbGet(window.fbRef(window.fbDB, 'perfiles'));
+    const perfiles = snapPerfiles.val() || {};
+    const users = Object.entries(perfiles);
+
+    // Cargar sesiones
+    const snapSesiones = await window.fbGet(window.fbRef(window.fbDB, 'sesiones'));
+    const sesiones = snapSesiones.val() || {};
+    const sessions = Object.entries(sesiones);
+
+    // Calcular stats
+    let totalTransferido = 0;
+    let boletasOCR = 0;
+    sessions.forEach(([id, s]) => {
+      if (s.confirmed) {
+        Object.values(s.confirmed).forEach(c => {
+          if (c.transferido) totalTransferido += c.total || 0;
+        });
+      }
+      if (s.lugar && !['Bar Italia','Nikkei 225','La Favola Pizzería','El Copetín de Barrio','División igualitaria'].includes(s.lugar)) boletasOCR++;
+    });
+
+    document.getElementById('admin-stat-sesiones').textContent = sessions.length;
+    document.getElementById('admin-stat-usuarios').textContent = users.length;
+    document.getElementById('admin-stat-total').textContent = fmt(totalTransferido);
+    document.getElementById('admin-stat-ocr').textContent = boletasOCR;
+
+    // Render usuarios
+    const ulEl = document.getElementById('admin-users-list');
+    if (!users.length) { ulEl.innerHTML = '<p class="text-on-surface-variant text-sm italic">Sin usuarios registrados aún.</p>'; }
+    else {
+      ulEl.innerHTML = users.map(([nick, d], i) => `
+        <div class="bg-surface-container-low rounded-xl p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl ${avColor(i)} flex items-center justify-center font-headline font-black text-white text-sm flex-shrink-0">${nick.substring(0,2).toUpperCase()}</div>
+          <div class="flex-1 min-w-0">
+            <p class="font-label font-bold text-sm">${nick}</p>
+            <p class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest truncate">${d.nombre || '—'} · ${d.banco || '—'}</p>
+          </div>
+          <div class="text-right flex-shrink-0">
+            <p class="font-label text-[10px] text-outline">${d.updatedAt ? new Date(d.updatedAt).toLocaleDateString('es-CL') : '—'}</p>
+          </div>
+        </div>`).join('');
+    }
+
+    // Render sesiones recientes (últimas 10)
+    const slEl = document.getElementById('admin-sessions-list');
+    const sortedSessions = sessions.sort((a,b) => (b[1].createdAt||0) - (a[1].createdAt||0)).slice(0,10);
+    if (!sortedSessions.length) { slEl.innerHTML = '<p class="text-on-surface-variant text-sm italic">Sin sesiones aún.</p>'; }
+    else {
+      slEl.innerHTML = sortedSessions.map(([id, s]) => {
+        const confirmados = Object.keys(s.confirmed || {}).length;
+        const transferidos = Object.values(s.confirmed || {}).filter(c => c.transferido).length;
+        const totalSesion = Object.values(s.confirmed || {}).reduce((a,c) => a + (c.total||0), 0);
+        const fecha = s.createdAt ? new Date(s.createdAt).toLocaleDateString('es-CL', {day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}) : '—';
+        return `
+          <div class="bg-surface-container-low rounded-xl p-4 border border-outline-variant/10">
+            <div class="flex items-center justify-between mb-2">
+              <div>
+                <p class="font-headline font-bold text-sm">${s.lugar || '—'}</p>
+                <p class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">${fecha}</p>
+              </div>
+              <p class="font-label font-black text-lg text-primary-dim">${fmt(totalSesion)}</p>
+            </div>
+            <div class="flex gap-3">
+              <span class="font-label text-[10px] bg-surface-container-high px-2 py-1 rounded-full text-on-surface-variant">${(s.productos||[]).length} productos</span>
+              <span class="font-label text-[10px] bg-surface-container-high px-2 py-1 rounded-full text-on-surface-variant">${confirmados} confirmados</span>
+              <span class="font-label text-[10px] bg-[#25D366]/15 px-2 py-1 rounded-full text-[#25D366]">${transferidos} pagaron</span>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+  } catch(e) {
+    console.error('Admin error:', e);
+    toast('Error cargando datos');
+  }
+}
+
+// ── Acceso admin por URL (?admin=true) y por PIN oculto ──
+function checkAdminAccess() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('admin') === 'true') {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('s-admin').classList.add('active');
+  }
+}
+
+// ── PIN oculto: 5 clicks rápidos en el footer ──
+let footerClicks = 0; let footerTimer = null;
+function footerClickSecret() {
+  footerClicks++;
+  clearTimeout(footerTimer);
+  footerTimer = setTimeout(() => { footerClicks = 0; }, 2000);
+  if (footerClicks >= 5) {
+    footerClicks = 0;
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('s-admin').classList.add('active');
+    document.getElementById('admin-pin-input').focus();
+  }
+}
+
 // ══ INIT ══
 renderDemoBoletas();
+checkAdminAccess();
 renderReceipt();
 
 document.addEventListener('firebase-ready', async () => {
