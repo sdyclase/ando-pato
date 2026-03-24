@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0" name="viewport"/>
-<title>Ando Pato — Divide la cuenta</title>
+<title>Yo Pago — Divide la cuenta</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <script type="module">
@@ -79,7 +79,7 @@ tailwind.config = {
 <!-- ══ HOME ══ -->
 <div class="screen active" id="s-home">
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
-    <h1 class="font-headline font-black uppercase tracking-tighter text-2xl text-primary-dim italic tracking-[0.05em]">ANDO PATO</h1>
+    <h1 class="font-headline font-black uppercase tracking-tighter text-2xl text-primary-dim italic tracking-[0.05em]">YO PAGO</h1>
     <div class="w-9 h-9 rounded-full bg-surface-container-highest border border-outline-variant/20 flex items-center justify-center text-on-surface-variant text-sm font-bold font-label">AP</div>
   </header>
   <main class="px-6 pt-10 pb-28 max-w-lg mx-auto flex-1 space-y-8">
@@ -103,6 +103,22 @@ tailwind.config = {
           <p class="text-on-surface-variant text-sm">Sube la boleta y genera un link para cobrarle a todos.</p>
         </div>
         <div class="w-full bg-gradient-to-tr from-primary-dim to-tertiary-container py-4 rounded-xl font-label font-bold uppercase tracking-widest text-white text-center text-sm shadow-xl">SUBIR BOLETA</div>
+      </div>
+    </div>
+
+
+    <!-- Card Eventos -->
+    <div onclick="go('s-eventos')" class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/10 p-1 cursor-pointer transition-all hover:scale-[1.02] duration-300">
+      <div class="absolute inset-0 bg-gradient-to-br from-tertiary-container/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-xl"></div>
+      <div class="relative glass-card rounded-[10px] p-7 flex flex-col items-start gap-5">
+        <div class="bg-tertiary-container/20 p-4 rounded-xl text-tertiary" style="box-shadow:0 0 20px rgba(147,34,254,0.3)">
+          <span class="material-symbols-outlined text-3xl" style="font-variation-settings:'FILL' 1;">celebration</span>
+        </div>
+        <div class="space-y-1">
+          <h3 class="font-headline text-2xl font-black uppercase tracking-tight">Eventos</h3>
+          <p class="text-on-surface-variant text-sm">Cumpleaños, asados, canchas y más — divide cualquier gasto.</p>
+        </div>
+        <div class="w-full bg-surface-container-high border border-tertiary/30 py-4 rounded-xl font-label font-bold uppercase tracking-widest text-tertiary text-center text-sm">VER EVENTOS</div>
       </div>
     </div>
 
@@ -145,12 +161,134 @@ tailwind.config = {
   </footer>
 </div>
 
+
+<!-- ══ EVENTOS ══ -->
+<div class="screen" id="s-eventos">
+  <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
+    <div class="flex items-center gap-3">
+      <button onclick="go('s-home')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
+    </div>
+    <span class="font-label text-xs text-outline uppercase tracking-widest">Eventos</span>
+  </header>
+  <main class="px-6 pt-8 pb-28 max-w-lg mx-auto flex-1 space-y-5">
+    <section class="text-center space-y-2">
+      <h2 class="font-headline text-4xl font-black uppercase tracking-tighter leading-none">¿QUÉ VAN<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-dim to-tertiary-container">A HACER?</span></h2>
+      <p class="text-on-surface-variant text-sm">Selecciona el tipo de evento para dividir los gastos.</p>
+    </section>
+
+    <!-- Evento 1: Yo Pago — GRATIS -->
+    <div onclick="go('s-nick')" class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-primary-dim/20 p-1 cursor-pointer transition-all hover:scale-[1.02] duration-300">
+      <div class="relative glass-card rounded-[10px] p-5 flex items-center gap-4">
+        <div class="w-14 h-14 rounded-xl bg-primary-dim/20 flex items-center justify-center flex-shrink-0 neon-glow">
+          <span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings:'FILL' 1;">receipt_long</span>
+        </div>
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-1">
+            <h3 class="font-headline text-lg font-black uppercase tracking-tight">Yo Pago</h3>
+            <span class="bg-[#25D366]/20 text-[#25D366] font-label text-[10px] font-bold uppercase px-2 py-0.5 rounded-full tracking-widest">GRATIS</span>
+          </div>
+          <p class="text-on-surface-variant text-xs">Sube la boleta y divide la cuenta del bar o restaurant.</p>
+        </div>
+        <span class="material-symbols-outlined text-primary-dim">chevron_right</span>
+      </div>
+    </div>
+
+    <!-- Separador premium -->
+    <div class="flex items-center gap-3">
+      <div class="flex-1 h-px bg-outline-variant/30"></div>
+      <div class="flex items-center gap-1.5 px-3 py-1 bg-tertiary-container/20 rounded-full border border-tertiary/30">
+        <span class="material-symbols-outlined text-tertiary text-sm" style="font-variation-settings:'FILL' 1;">workspace_premium</span>
+        <span class="font-label text-[10px] text-tertiary font-bold uppercase tracking-widest">Premium</span>
+      </div>
+      <div class="flex-1 h-px bg-outline-variant/30"></div>
+    </div>
+
+    <!-- Eventos premium bloqueados -->
+    <div class="space-y-3">
+
+      <!-- Cumpleaños -->
+      <div class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/10 p-1 opacity-70">
+        <div class="relative glass-card rounded-[10px] p-5 flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center flex-shrink-0 text-2xl">🎂</div>
+          <div class="flex-1">
+            <h3 class="font-headline text-lg font-black uppercase tracking-tight">Cumpleaños</h3>
+            <p class="text-on-surface-variant text-xs">Divide el regalo, torta o celebración entre todos.</p>
+          </div>
+          <span class="material-symbols-outlined text-outline" style="font-variation-settings:'FILL' 1;">lock</span>
+        </div>
+      </div>
+
+      <!-- Asado -->
+      <div class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/10 p-1 opacity-70">
+        <div class="relative glass-card rounded-[10px] p-5 flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center flex-shrink-0 text-2xl">🍖</div>
+          <div class="flex-1">
+            <h3 class="font-headline text-lg font-black uppercase tracking-tight">Asado</h3>
+            <p class="text-on-surface-variant text-xs">Carne, bebestibles, carbón y todo lo del asado.</p>
+          </div>
+          <span class="material-symbols-outlined text-outline" style="font-variation-settings:'FILL' 1;">lock</span>
+        </div>
+      </div>
+
+      <!-- Paga la Cancha -->
+      <div class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/10 p-1 opacity-70">
+        <div class="relative glass-card rounded-[10px] p-5 flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center flex-shrink-0 text-2xl">⚽</div>
+          <div class="flex-1">
+            <h3 class="font-headline text-lg font-black uppercase tracking-tight">Paga la Cancha</h3>
+            <p class="text-on-surface-variant text-xs">Divide el arriendo de la cancha entre los jugadores.</p>
+          </div>
+          <span class="material-symbols-outlined text-outline" style="font-variation-settings:'FILL' 1;">lock</span>
+        </div>
+      </div>
+
+      <!-- Evento Libre -->
+      <div class="group relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant/10 p-1 opacity-70">
+        <div class="relative glass-card rounded-[10px] p-5 flex items-center gap-4">
+          <div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center flex-shrink-0 text-2xl">🎉</div>
+          <div class="flex-1">
+            <h3 class="font-headline text-lg font-black uppercase tracking-tight">Evento Libre</h3>
+            <p class="text-on-surface-variant text-xs">Cualquier gasto compartido — tú pones el nombre.</p>
+          </div>
+          <span class="material-symbols-outlined text-outline" style="font-variation-settings:'FILL' 1;">lock</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Premium -->
+    <div class="bg-gradient-to-br from-tertiary-container/30 to-primary-dim/20 rounded-xl p-5 border border-tertiary/30">
+      <div class="flex items-start gap-3 mb-4">
+        <span class="material-symbols-outlined text-tertiary mt-0.5" style="font-variation-settings:'FILL' 1;">workspace_premium</span>
+        <div>
+          <p class="font-headline font-black text-lg uppercase tracking-tight">¿Quieres desbloquear todo?</p>
+          <p class="text-on-surface-variant text-xs mt-1 leading-relaxed">Accede a todos los eventos premium por un precio mínimo.</p>
+        </div>
+      </div>
+      <div class="flex items-center justify-between bg-surface-container-highest/60 rounded-xl p-4 mb-4">
+        <div>
+          <p class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest">Plan Premium</p>
+          <p class="font-headline font-black text-2xl tracking-tighter">$2.000 <span class="text-sm font-normal text-on-surface-variant">/mes</span></p>
+        </div>
+        <div class="text-right">
+          <p class="font-label text-[10px] text-tertiary uppercase tracking-widest">O también</p>
+          <p class="font-label font-bold text-sm">$500 por evento</p>
+        </div>
+      </div>
+      <button onclick="toast('Próximamente — por ahora escríbenos al Instagram')" class="w-full h-12 bg-gradient-to-tr from-tertiary-dim to-tertiary-container rounded-xl flex items-center justify-center gap-2 font-label font-bold text-white uppercase tracking-widest text-sm active:scale-95 transition-all shadow-[0_8px_24px_rgba(147,34,254,0.3)]">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">workspace_premium</span>
+        QUIERO PREMIUM
+      </button>
+    </div>
+  </main>
+</div>
+
 <!-- ══ NICK ══ -->
 <div class="screen" id="s-nick">
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-home')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest">Tu Perfil</span>
   </header>
@@ -204,7 +342,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-home')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest">Subir Boleta</span>
   </header>
@@ -241,6 +379,22 @@ tailwind.config = {
         <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1;">photo_library</span>
         <span class="font-label font-bold text-on-surface uppercase tracking-widest text-sm">ELEGIR DE GALERÍA</span>
       </button>
+
+      <!-- Dividir en partes iguales -->
+      <div class="relative mt-3">
+        <div class="flex items-center gap-3 my-3">
+          <div class="flex-1 h-px bg-outline-variant/20"></div>
+          <span class="font-label text-[10px] text-outline uppercase tracking-widest">O bien</span>
+          <div class="flex-1 h-px bg-outline-variant/20"></div>
+        </div>
+        <button onclick="go('s-split')" class="w-full h-14 bg-surface-container-high border border-primary-dim/30 rounded-xl flex items-center justify-center gap-3 active:scale-95 transition-all hover:border-primary-dim/60">
+          <span class="material-symbols-outlined text-primary" style="font-variation-settings:'FILL' 1;">calculate</span>
+          <div class="text-left">
+            <span class="font-label font-bold text-on-surface uppercase tracking-widest text-sm block">DIVIDIR EN PARTES IGUALES</span>
+            <span class="font-label text-[10px] text-on-surface-variant">Sin boleta — ingresa el monto total</span>
+          </div>
+        </button>
+      </div>
     </div>
 
     <!-- OCR Loading state -->
@@ -275,7 +429,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-p1')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest">Personas</span>
   </header>
@@ -308,12 +462,92 @@ tailwind.config = {
   </main>
 </div>
 
+
+<!-- ══ DIVIDIR EN PARTES IGUALES ══ -->
+<div class="screen" id="s-split">
+  <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
+    <div class="flex items-center gap-3">
+      <button onclick="go('s-upload')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
+    </div>
+    <span class="font-label text-xs text-outline uppercase tracking-widest">Partes Iguales</span>
+  </header>
+  <main class="px-6 pt-8 pb-28 max-w-lg mx-auto flex-1 space-y-6">
+    <section class="text-center space-y-2">
+      <h2 class="font-headline text-4xl font-black uppercase tracking-tighter leading-none">DIVIDIR<br/><span class="text-transparent bg-clip-text bg-gradient-to-r from-primary-dim to-tertiary-container">EN PARTES IGUALES</span></h2>
+      <p class="text-on-surface-variant text-sm">Ingresa el monto total y la cantidad de personas. Calculamos automáticamente.</p>
+    </section>
+
+    <!-- Monto total -->
+    <div>
+      <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Monto Total ($)</label>
+      <div class="flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-primary-dim/40 focus-within:border-primary-dim transition-all">
+        <span class="font-label text-primary-dim text-xl font-bold mr-3">$</span>
+        <input id="split-monto" class="w-full bg-transparent border-none focus:ring-0 py-4 text-on-surface font-headline font-bold text-3xl outline-none" placeholder="0" type="number" inputmode="numeric" min="0" oninput="calcularSplit()"/>
+      </div>
+    </div>
+
+    <!-- Toggle propina -->
+    <div class="flex justify-between items-center bg-surface-container-low p-4 rounded-xl border border-outline-variant/10 cursor-pointer" onclick="toggleSplitTip()">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-tertiary text-lg">volunteer_activism</span>
+        <div>
+          <p class="font-body font-bold text-sm">Incluir Propina</p>
+          <p class="font-label text-[10px] text-tertiary uppercase font-bold tracking-widest" id="split-tip-label">+ 10%</p>
+        </div>
+      </div>
+      <div id="split-tip-sw" class="w-11 h-6 bg-gradient-to-tr from-primary-dim to-tertiary-container rounded-full relative flex-shrink-0 transition-all">
+        <div id="split-tip-knob" class="w-5 h-5 bg-white rounded-full absolute top-0.5 right-0.5 transition-all shadow"></div>
+      </div>
+    </div>
+
+    <!-- Número de personas -->
+    <div>
+      <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-3">Número de Personas</label>
+      <div class="flex items-center justify-between gap-4">
+        <button onclick="ajustarPersonasSplit(-1)" class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant/30 flex items-center justify-center text-2xl font-bold text-on-surface active:scale-90 transition-all hover:bg-surface-bright">−</button>
+        <div class="flex-1 text-center">
+          <span class="font-headline font-black text-5xl tracking-tighter" id="split-personas">2</span>
+          <p class="font-label text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">personas</p>
+        </div>
+        <button onclick="ajustarPersonasSplit(1)" class="w-14 h-14 rounded-xl bg-surface-container-high border border-outline-variant/30 flex items-center justify-center text-2xl font-bold text-on-surface active:scale-90 transition-all hover:bg-surface-bright">+</button>
+      </div>
+    </div>
+
+    <!-- Resultado -->
+    <div class="bg-surface-container-highest rounded-xl p-6 text-center relative overflow-hidden">
+      <div class="absolute -top-8 -right-8 w-32 h-32 bg-primary-dim/10 blur-[60px] rounded-full"></div>
+      <p class="font-label text-[10px] uppercase text-on-surface-variant tracking-[0.2em] mb-2">CADA PERSONA PAGA</p>
+      <p class="font-headline text-6xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary-dim to-tertiary-container" id="split-resultado">$0</p>
+      <p class="font-label text-xs text-outline mt-2" id="split-detalle">—</p>
+    </div>
+
+    <!-- Agregar personas para el link -->
+    <div>
+      <label class="font-label text-xs uppercase tracking-widest text-primary-dim font-bold block mb-2">Agrega los nombres (opcional)</label>
+      <div class="flex gap-2 mb-3">
+        <div class="flex-1 flex items-center bg-surface-container-high rounded-xl px-4 border-b-2 border-outline-variant/30 focus-within:border-primary-dim transition-all">
+          <span class="material-symbols-outlined text-outline-variant mr-3">person_add</span>
+          <input id="split-person-input" class="w-full bg-transparent border-none focus:ring-0 py-3 text-on-surface font-body outline-none text-sm" placeholder="Nombre..." maxlength="20" type="text" onkeydown="if(event.key==='Enter')addSplitPerson()"/>
+        </div>
+        <button onclick="addSplitPerson()" class="bg-primary-dim/20 border border-primary-dim text-primary px-4 rounded-xl font-label font-bold text-sm active:scale-95 transition-all hover:bg-primary-dim hover:text-white">+ Agregar</button>
+      </div>
+      <div id="split-people-list" class="space-y-2"></div>
+    </div>
+
+    <button onclick="generarSesionSplit()" class="w-full h-14 bg-gradient-to-tr from-primary-dim to-tertiary-container rounded-xl flex items-center justify-center gap-3 font-label font-bold text-white uppercase tracking-widest text-sm shadow-[0_10px_30px_rgba(108,93,244,0.3)] active:scale-95 transition-all">
+      <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">link</span>
+      CONTINUAR Y GENERAR LINK
+    </button>
+  </main>
+</div>
+
 <!-- ══ PAGADOR 1 — Boleta ══ -->
 <div class="screen" id="s-p1">
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-upload')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest" id="p1-label">Boleta</span>
   </header>
@@ -367,7 +601,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-personas')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest">Tus Datos</span>
   </header>
@@ -480,7 +714,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-p2')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="flex h-2 w-2 rounded-full bg-tertiary animate-pulse"></span>
   </header>
@@ -502,7 +736,7 @@ tailwind.config = {
         <span class="flex h-2 w-2 rounded-full bg-tertiary animate-pulse"></span>
       </div>
       <div class="bg-surface-container-low rounded-lg p-4 flex items-center justify-between">
-        <code class="font-label text-primary font-medium tracking-tight text-sm">ando.pato/mesa/abc123</code>
+        <code class="font-label text-primary font-medium tracking-tight text-sm">yo-pago.vercel.app/...</code>
         <button onclick="copyLink()" class="p-2 hover:bg-surface-container-highest rounded-lg transition-colors text-primary">
           <span class="material-symbols-outlined">content_copy</span>
         </button>
@@ -547,7 +781,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-p3')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs text-outline uppercase tracking-widest">Resumen</span>
   </header>
@@ -585,7 +819,7 @@ tailwind.config = {
 <!-- ══ AMIGO — Entrada ══ -->
 <div class="screen" id="s-amigo-entrada">
   <header class="bg-surface flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
-    <span class="text-primary-dim font-black italic tracking-[0.05em] font-headline uppercase text-2xl">ANDO PATO</span>
+    <span class="text-primary-dim font-black italic tracking-[0.05em] font-headline uppercase text-2xl">YO PAGO</span>
     <div class="flex items-center gap-2 opacity-50">
       <span class="material-symbols-outlined text-primary">table_restaurant</span>
       <span class="font-label text-xs uppercase font-bold tracking-widest">Invitado</span>
@@ -624,7 +858,7 @@ tailwind.config = {
   <footer class="p-6 text-center">
     <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-surface-container-low">
       <span class="material-symbols-outlined text-[14px] text-tertiary">verified_user</span>
-      <span class="text-[10px] font-label font-bold uppercase text-on-surface-variant tracking-wider">Conexión Segura Ando Pato</span>
+      <span class="text-[10px] font-label font-bold uppercase text-on-surface-variant tracking-wider">Conexión Segura Yo Pago</span>
     </div>
   </footer>
 </div>
@@ -634,7 +868,7 @@ tailwind.config = {
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
     <div class="flex items-center gap-3">
       <button onclick="go('s-amigo-entrada')" class="text-primary-dim active:scale-95"><span class="material-symbols-outlined">arrow_back</span></button>
-      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+      <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     </div>
     <span class="font-label text-xs font-bold text-tertiary uppercase tracking-widest" id="sel-header-name">Tú</span>
   </header>
@@ -683,7 +917,7 @@ tailwind.config = {
 <!-- ══ AMIGO — Confirmado (consumo) ══ -->
 <div class="screen" id="s-amigo-ok">
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
-    <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+    <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     <span class="font-label text-xs text-[#25D366] uppercase tracking-widest font-bold">¡Listo!</span>
   </header>
   <main class="px-6 pt-6 pb-28 max-w-lg mx-auto flex-1 space-y-6">
@@ -758,7 +992,7 @@ tailwind.config = {
 <!-- ══ AMIGO — Transferencia Confirmada ══ -->
 <div class="screen" id="s-amigo-transferido">
   <header class="bg-surface sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-[0_4px_20px_rgba(104,89,240,0.1)]">
-    <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">ANDO PATO</h1>
+    <h1 class="font-headline font-black uppercase tracking-tighter text-xl text-primary-dim italic">YO PAGO</h1>
     <span class="font-label text-xs text-[#25D366] uppercase tracking-widest font-bold">Pagado ✓</span>
   </header>
   <main class="px-6 pt-8 pb-28 max-w-lg mx-auto flex-1 space-y-6">
@@ -1683,13 +1917,13 @@ Monto: ${document.getElementById('ok-monto').textContent}`;
 // ══ SHARE ══
 function shareWsp() {
   if (!sessionId) { toast('Primero genera el link'); return; }
-  const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
-  const msg = encodeURIComponent(`Hola! Soy Samuel Godoy 👋\nPaga tu parte de la cuenta de ${activeBoleta.lugar} aquí 👇\n${link}\n\nTotal mesa: ${fmt(grand())}`);
+  const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
+  const msg = encodeURIComponent(`Hola! 👋 Paga tu parte de ${activeBoleta.lugar} en Yo Pago 💸\n${link}\n\nTotal mesa: ${fmt(grand())}`);
   window.open(`https://wa.me/?text=${msg}`, '_blank');
 }
 function copyLink() {
   if (!sessionId) { toast('Primero genera el link'); return; }
-  const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
+  const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
   navigator.clipboard?.writeText(link).catch(() => {});
   // Actualizar el código visible en pantalla
   document.querySelectorAll('code').forEach(el => {
@@ -1737,7 +1971,7 @@ async function createFirebaseSession() {
   try {
     await window.fbSet(window.fbRef(window.fbDB, `sesiones/${sessionId}`), sessionData);
     // Mostrar link real en pantalla
-    const link = `https://ando-pato.vercel.app/?s=${sessionId}`;
+    const link = `https://yo-pago.vercel.app/?s=${sessionId}`;
     document.querySelectorAll('code').forEach(el => {
       if (el.textContent.includes('ando.pato') || el.textContent.includes('vercel.app')) {
         el.textContent = link;
@@ -1858,6 +2092,107 @@ async function loadSessionFromURL() {
     toast('Error al cargar la sesión');
     return false;
   }
+}
+
+
+// ══ SPLIT IGUAL ══
+let splitTipEnabled = true;
+let splitPersonas = [];
+
+function calcularSplit() {
+  const monto = parseFloat(document.getElementById('split-monto').value) || 0;
+  const n = parseInt(document.getElementById('split-personas').textContent) || 2;
+  const conTip = splitTipEnabled ? monto * 1.10 : monto;
+  const porPersona = n > 0 ? Math.ceil(conTip / n) : 0;
+  document.getElementById('split-resultado').textContent = fmt(porPersona);
+  const tipTxt = splitTipEnabled ? ` + 10% propina = ${fmt(Math.round(conTip))}` : '';
+  document.getElementById('split-detalle').textContent = monto > 0
+    ? `${fmt(monto)}${tipTxt} ÷ ${n} personas`
+    : '—';
+}
+
+function toggleSplitTip() {
+  splitTipEnabled = !splitTipEnabled;
+  const sw = document.getElementById('split-tip-sw');
+  const knob = document.getElementById('split-tip-knob');
+  document.getElementById('split-tip-label').textContent = splitTipEnabled ? '+ 10%' : 'Sin propina';
+  if (splitTipEnabled) { sw.style.background=''; knob.style.left='auto'; knob.style.right='2px'; }
+  else { sw.style.background='#262339'; knob.style.right='auto'; knob.style.left='2px'; }
+  calcularSplit();
+}
+
+function ajustarPersonasSplit(delta) {
+  const el = document.getElementById('split-personas');
+  const n = Math.max(2, Math.min(20, parseInt(el.textContent) + delta));
+  el.textContent = n;
+  // Sincronizar con lista de personas si hay menos nombres que personas
+  calcularSplit();
+}
+
+function addSplitPerson() {
+  const input = document.getElementById('split-person-input');
+  const name = input.value.trim();
+  if (!name) return;
+  if (splitPersonas.includes(name)) { toast(`${name} ya está`); return; }
+  splitPersonas.push(name);
+  // Actualizar contador de personas si hay más nombres
+  const n = parseInt(document.getElementById('split-personas').textContent);
+  if (splitPersonas.length > n) {
+    document.getElementById('split-personas').textContent = splitPersonas.length;
+    calcularSplit();
+  }
+  renderSplitPeople();
+  input.value = '';
+}
+
+function renderSplitPeople() {
+  const list = document.getElementById('split-people-list');
+  list.innerHTML = splitPersonas.map((name, i) => `
+    <div class="flex items-center gap-3 p-3 bg-surface-container-low rounded-xl border border-outline-variant/10">
+      <div class="w-8 h-8 rounded-lg ${avColor(i)} flex items-center justify-center font-headline font-black text-white text-xs flex-shrink-0">${initials(name)}</div>
+      <p class="flex-1 font-body font-bold text-sm">${name}</p>
+      <button onclick="removeSplitPerson('${name}')" class="w-7 h-7 rounded-full border border-outline-variant/30 flex items-center justify-center text-outline hover:text-error transition-all">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    </div>`).join('');
+}
+
+function removeSplitPerson(name) {
+  splitPersonas = splitPersonas.filter(p => p !== name);
+  renderSplitPeople();
+  calcularSplit();
+}
+
+async function generarSesionSplit() {
+  const montoRaw = parseFloat(document.getElementById('split-monto').value) || 0;
+  if (!montoRaw) { toast('Ingresa el monto total'); return; }
+  const n = parseInt(document.getElementById('split-personas').textContent) || 2;
+  const conTip = splitTipEnabled ? Math.round(montoRaw * 1.10) : Math.round(montoRaw);
+  const porPersona = Math.ceil(conTip / n);
+
+  // Construir boleta artificial con N items iguales
+  const names = splitPersonas.length >= n
+    ? splitPersonas.slice(0, n)
+    : [...splitPersonas, ...Array(n - splitPersonas.length).fill(null).map((_,i) => `Persona ${i + splitPersonas.length + 1}`)];
+
+  activeBoleta = {
+    id: 'split-' + Date.now(),
+    lugar: 'División igualitaria',
+    emoji: '⚖️',
+    productos: names.map((name, i) => ({
+      id: i + 1,
+      name: `Parte de ${name}`,
+      price: Math.ceil(montoRaw / n)
+    }))
+  };
+  tipEnabled = splitTipEnabled;
+  persons = names;
+  assignments = {};
+  confirmed = {};
+
+  // Ir a datos bancarios directamente
+  toast('Monto calculado ✓');
+  go('s-p2');
 }
 
 // ══ INIT ══
